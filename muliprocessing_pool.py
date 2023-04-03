@@ -1,5 +1,7 @@
-from concurrent.futures import ThreadPoolExecutor , as_completed  
+from concurrent.futures import ProcessPoolExecutor ,as_completed
 import time 
+
+
 start = time.perf_counter()
 
 def sleep_fun(task_num):
@@ -7,7 +9,7 @@ def sleep_fun(task_num):
     time.sleep(task_num)
     return (f"task number {task_num} : finished")
 
-with ThreadPoolExecutor() as executor:
+with ProcessPoolExecutor() as executor:
     #one time method execution 
     future_obj = executor.submit(sleep_fun,1)
     print(future_obj.result())
@@ -19,6 +21,11 @@ with ThreadPoolExecutor() as executor:
     future_objs_form_map = executor.map(sleep_fun,[1,2,3,4,5])
     for res in future_objs_form_map:
         print("map ..: ",res)
+
+
+
+
+
 
 end  = time.perf_counter()
 print("total time : ",round(end- start,2)," seconds")
